@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ToDoList.Models;
 
 namespace ToDoList.Controllers
 {
     public class TareaController : Controller
     {
+        public List<Tarea> ListaTareas()
+        {
+            List<Tarea> lista = Session["Tareas"] as List<Tarea>;
+            if (lista == null)
+            {
+                lista = new List<Tarea>();
+                Session["Tareas"] = lista;
+            }
+            return lista;
+        }
+
         // GET: Tarea
         public ActionResult Index()
         {
+           
             return View();
         }
 
