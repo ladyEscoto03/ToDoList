@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ToDoList.Models;
@@ -32,7 +33,14 @@ namespace ToDoList.Controllers
         public JsonResult GetTareas()
         {
             List<Tarea> lista = ListaTareas();
-            return Json(lista, JsonRequestBehavior.AllowGet);
+            return Json(lista.Select(t => new {
+                t.Title,
+                t.Description,
+                Created_at = t.Created_at.ToString("dd/MM/yyyy"),
+                DeadLine = t.DeadLine.ToString("dd/MM/yyyy"),
+                t.Status,
+                t.Priority
+            }), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult Create(string title, string description,DateTime deadline, string priority)
