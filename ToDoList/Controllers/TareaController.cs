@@ -29,12 +29,27 @@ namespace ToDoList.Controllers
 
         // GET: Tarea
         [HttpGet]
-        public JsonResult getTareas()
+        public JsonResult GetTareas()
         {
             List<Tarea> lista = ListaTareas();
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult Create(string title, string description,DateTime deadline, string status, string priority )
+        {
+            Tarea tarea = new Tarea();
+            tarea.Title = title;
+            tarea.Description = description;
+            tarea.Created_at = DateTime.Now;
+            tarea.DeadLine = deadline;
+            tarea.Status = status;
+            tarea.Priority = priority;
+            Session["Tareas"] = tarea;
+            return Json(tarea, JsonRequestBehavior.AllowGet);
+        }
 
+
+        /*
         // GET: Tarea/Details/5
         public ActionResult Details(int id)
         {
@@ -106,5 +121,7 @@ namespace ToDoList.Controllers
                 return View();
             }
         }
+        */
     }
+      
 }

@@ -32,7 +32,7 @@
 
             function cargarTareas() {
                 $.ajax({
-                    url: "@Url.Action("getTareas", "Tarea")",
+                    url: "@Url.Action("GetTareas", "Tarea")",
                     type: "GET",
                     dataType: "json",
                     success: function (result) {
