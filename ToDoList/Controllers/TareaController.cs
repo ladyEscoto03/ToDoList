@@ -62,107 +62,115 @@ namespace ToDoList.Controllers
         }
 
         [HttpGet]
-        public Tarea SearchTarea(int id)
+        public JsonResult SearchTarea(int id)
         {
             List<Tarea> lista = ListaTareas();
 
             Tarea tarea = lista.Find(t => t.Id == id);
-            return tarea;
+
+            return Json(new
+            {
+                tarea.Id,
+                tarea.Title,
+                tarea.Description,
+                DeadLine = tarea.DeadLine.ToString("yyyy-MM-dd"),
+                tarea.Status,
+                tarea.Priority
+            }, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpPost]
-        public JsonResult Edit( int id, string title, string description, DateTime deadline, string priority, string status)
-        {
-
-            Tarea tarea = SearchTarea(id);
-            tarea.Title = title;
-            tarea.Description = description;
-          
-            tarea.DeadLine = deadline;
-            tarea.Status = status;
-            tarea.Priority = priority;
-
-            List<Tarea> lista = ListaTareas();
-            Session["Tareas"] = lista;
-
-            return Json(tarea, JsonRequestBehavior.AllowGet);
-        }
-
-
 
         /*
-        // GET: Tarea/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: Tarea/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+       [HttpPost]
+       public JsonResult Edit( int id, string title, string description, DateTime deadline, string priority, string status)
+       {
 
-        // POST: Tarea/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
+           Tarea tarea = SearchTarea(id);
+           tarea.Title = title;
+           tarea.Description = description;
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+           tarea.DeadLine = deadline;
+           tarea.Status = status;
+           tarea.Priority = priority;
 
-        // GET: Tarea/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+           List<Tarea> lista = ListaTareas();
+           Session["Tareas"] = lista;
 
-        // POST: Tarea/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+           return Json(tarea, JsonRequestBehavior.AllowGet);
+       }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       // GET: Tarea/Details/5
+       public ActionResult Details(int id)
+       {
+           return View();
+       }
 
-        // GET: Tarea/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+       // GET: Tarea/Create
+       public ActionResult Create()
+       {
+           return View();
+       }
 
-        // POST: Tarea/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+       // POST: Tarea/Create
+       [HttpPost]
+       public ActionResult Create(FormCollection collection)
+       {
+           try
+           {
+               // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        */
+               return RedirectToAction("Index");
+           }
+           catch
+           {
+               return View();
+           }
+       }
+
+       // GET: Tarea/Edit/5
+       public ActionResult Edit(int id)
+       {
+           return View();
+       }
+
+       // POST: Tarea/Edit/5
+       [HttpPost]
+       public ActionResult Edit(int id, FormCollection collection)
+       {
+           try
+           {
+               // TODO: Add update logic here
+
+               return RedirectToAction("Index");
+           }
+           catch
+           {
+               return View();
+           }
+       }
+
+       // GET: Tarea/Delete/5
+       public ActionResult Delete(int id)
+       {
+           return View();
+       }
+
+       // POST: Tarea/Delete/5
+       [HttpPost]
+       public ActionResult Delete(int id, FormCollection collection)
+       {
+           try
+           {
+               // TODO: Add delete logic here
+
+               return RedirectToAction("Index");
+           }
+           catch
+           {
+               return View();
+           }
+       }
+       */
     }
-      
+
 }
