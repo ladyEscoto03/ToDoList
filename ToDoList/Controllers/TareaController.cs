@@ -79,13 +79,14 @@ namespace ToDoList.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        /*
 
        [HttpPost]
        public JsonResult Edit( int id, string title, string description, DateTime deadline, string priority, string status)
        {
+            List<Tarea> lista = ListaTareas();
 
-           Tarea tarea = SearchTarea(id);
+           Tarea tarea = lista.Find(t => t.Id == id);
+
            tarea.Title = title;
            tarea.Description = description;
 
@@ -93,11 +94,12 @@ namespace ToDoList.Controllers
            tarea.Status = status;
            tarea.Priority = priority;
 
-           List<Tarea> lista = ListaTareas();
+       
            Session["Tareas"] = lista;
 
            return Json(tarea, JsonRequestBehavior.AllowGet);
        }
+        /*
 
        // GET: Tarea/Details/5
        public ActionResult Details(int id)
