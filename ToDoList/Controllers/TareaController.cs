@@ -23,8 +23,16 @@ namespace ToDoList.Controllers
         // GET: Tarea
         public ActionResult Index()
         {
-           List<Tarea>lista=ListaTareas();
-            return View(lista);
+   
+            return View();
+        }
+
+        // GET: Tarea
+        [HttpGet]
+        public JsonResult getTareas()
+        {
+            List<Tarea> lista = ListaTareas();
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Tarea/Details/5

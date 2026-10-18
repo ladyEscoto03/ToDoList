@@ -4,54 +4,62 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created_at)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeadLine)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Priority)
-        </th>
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created_at</th>
+            <th>DeadLine</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created_at)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeadLine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Priority)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+    <tbody id="tablaTareas">
+       
+    </tbody>
+</table>
+
+@section scripts{
+
+
+    <script>
+        $(document).ready(function () {
+
+            cargarTareas();
+
+
+            function cargarTareas() {
+                $.ajax({
+                    url: "@Url.Action("getTareas", "Tarea")",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (result) {
+                        let filas = "";
+                        $.each(result, function (i, item) {
+                            filas += `
+                            <tr>
+                            <td>${item.Title ?? ""}</td>
+                            <td>${item.Description ?? ""}</td>
+                            <td>${item.Created_at ?? ""}</td>
+                            <td>${item.DeadLine ?? ""}</td>
+                            <td>${item.Status ?? ""}</td>
+                            <td>${item.Priority ?? ""}</td>
+                            <td>
+                            <a href="/Tarea/Edit/${item.Id}">Editar</a>
+                            </td>
+                            </tr>`;
+                        });
+                        $("#tablaTareas").html(filas);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al cargar tareas:", error);
+                    }
+                });
+            }
+        });
+    </script>
+
 }
 
-</table>
