@@ -35,16 +35,18 @@ namespace ToDoList.Controllers
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult Create(string title, string description,DateTime deadline, string status, string priority )
+        public JsonResult Create(string title, string description,DateTime deadline, string priority)
         {
             Tarea tarea = new Tarea();
             tarea.Title = title;
             tarea.Description = description;
             tarea.Created_at = DateTime.Now;
             tarea.DeadLine = deadline;
-            tarea.Status = status;
+            tarea.Status = "Pendiente";
             tarea.Priority = priority;
-            Session["Tareas"] = tarea;
+            List<Tarea> lista = ListaTareas();
+            lista.Add(tarea);
+            Session["Tareas"] = lista;
             return Json(tarea, JsonRequestBehavior.AllowGet);
         }
 
