@@ -23,8 +23,8 @@ namespace ToDoList.Controllers
         // GET: Tarea
         public ActionResult Index()
         {
-           
-            return View();
+           List<Tarea>lista=ListaTareas();
+            return View(lista);
         }
 
         // GET: Tarea/Details/5
