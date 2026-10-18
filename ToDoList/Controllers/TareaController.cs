@@ -11,7 +11,7 @@ namespace ToDoList.Controllers
     public class TareaController : Controller
     {
         private static int IdT=1;
-        public List<Tarea> ListaTareas()
+        private List<Tarea> ListaTareas()
         {
             List<Tarea> lista = Session["Tareas"] as List<Tarea>;
             if (lista == null)
@@ -61,14 +61,20 @@ namespace ToDoList.Controllers
             return Json(tarea, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public Tarea SearchTarea(int id)
+        {
+            List<Tarea> lista = ListaTareas();
+
+            Tarea tarea = lista.Find(t => t.Id == id);
+            return tarea;
+        }
 
         [HttpPost]
         public JsonResult Edit( int id, string title, string description, DateTime deadline, string priority, string status)
         {
 
-            List<Tarea> lista = ListaTareas();
-
-            Tarea tarea=lista.Find(t=> t.Id == id);
+            Tarea tarea = SearchTarea(id);
             tarea.Title = title;
             tarea.Description = description;
           
@@ -76,6 +82,7 @@ namespace ToDoList.Controllers
             tarea.Status = status;
             tarea.Priority = priority;
 
+            List<Tarea> lista = ListaTareas();
             Session["Tareas"] = lista;
 
             return Json(tarea, JsonRequestBehavior.AllowGet);
