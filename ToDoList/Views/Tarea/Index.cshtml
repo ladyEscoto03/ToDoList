@@ -32,8 +32,8 @@
 
             function cargarTareas() {
                 $.ajax({
-                    url: "@Url.Action("GetTareas", "Tarea")",
                     type: "GET",
+                    url: "@Url.Action("GetTareas", "Tarea")",
                     dataType: "json",
                     success: function (result) {
                         let filas = "";
@@ -58,6 +58,30 @@
                     }
                 });
             }
+
+            function crearTarea() {
+                $.ajax({
+                    trype: "POST",
+                    url: "@Url.Action("Create", "Tarea")",
+                    dataType: "json",
+                    data: {
+                        title: $("#title").val(),
+                        description: $("#description").val(),
+                        deadline: $("#deadline").val(),
+                        status: $("#sttaus").val(), 
+                        priority: $("#priority").val()
+
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al cargar tareas:", error);
+                    }
+                })
+            }
+
+
         });
     </script>
 
