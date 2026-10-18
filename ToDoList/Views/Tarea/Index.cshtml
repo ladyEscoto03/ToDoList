@@ -57,12 +57,14 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Created_at</th>
-            <th>DeadLine</th>
-            <th>Status</th>
-            <th>Priority</th>
+
+            <th>Id</th>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha creación</th>
+            <th>Fecha límite</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -98,6 +100,7 @@
              $.each(result, function (i, item) {
                  filas += `
                  <tr>
+                  <td>${item.Id}</td>
                  <td>${item.Title ?? ""}</td>
                  <td>${item.Description ?? ""}</td>
                  <td>${item.Created_at ?? ""}</td>

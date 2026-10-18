@@ -10,6 +10,7 @@ namespace ToDoList.Controllers
 {
     public class TareaController : Controller
     {
+        private static int IdT=1;
         public List<Tarea> ListaTareas()
         {
             List<Tarea> lista = Session["Tareas"] as List<Tarea>;
@@ -34,6 +35,7 @@ namespace ToDoList.Controllers
         {
             List<Tarea> lista = ListaTareas();
             return Json(lista.Select(t => new {
+                t.Id,
                 t.Title,
                 t.Description,
                 Created_at = t.Created_at.ToString("dd/MM/yyyy"),
@@ -46,6 +48,7 @@ namespace ToDoList.Controllers
         public JsonResult Create(string title, string description,DateTime deadline, string priority)
         {
             Tarea tarea = new Tarea();
+            tarea.Id= IdT++;
             tarea.Title = title;
             tarea.Description = description;
             tarea.Created_at = DateTime.Now;
@@ -57,7 +60,6 @@ namespace ToDoList.Controllers
             Session["Tareas"] = lista;
             return Json(tarea, JsonRequestBehavior.AllowGet);
         }
-
 
         /*
         // GET: Tarea/Details/5
