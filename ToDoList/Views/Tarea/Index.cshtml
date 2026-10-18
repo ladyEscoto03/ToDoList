@@ -84,7 +84,7 @@
                         <label for="edit_status" class="col-form-label">Estado de la tarea </label>
                         <select class="form-select" aria-label="Default select example" id="edit_status">
                             <option value="Completa">Completa</option>
-                            <option value="Pendiente">Pendienete</option>
+                            <option value="Pendiente">Pendiente</option>
                             <option value="Cancelada">Cancelada</option>
                         </select>
                     </div>
@@ -235,6 +235,29 @@ class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height
             $("#edit_deadline").val(tarea.DeadLine);
         }
 
+        function editarTarea() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Edit", "Tarea")",
+                dataType: "json",
+                data: {
+                    id: $("#edit_id").val(),
+                    title: $("#edit_title").val(),
+                    deadline: $("#edit_deadline").val(),
+                    priority: $("#edit_priority").val(),
+                    status: $("#edit_status").val(),
+
+                },
+                success: function(result) {
+                    closeModal("#EditarModal");
+                    cargarTareas();
+                
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al cargar tareas - create:", error);
+                }
+            })
+        }
 
     </script>
 
