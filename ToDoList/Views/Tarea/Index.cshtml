@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<ToDoList.Models.Tarea>
 
+<div id="contenedor-alertas"></div>
+
 <button type="button"
         class="btn btn-primary"
         onclick="openModal('#CrearModal')">
@@ -197,6 +199,13 @@ class="btn btn-danger" onclick=" eliminarTarea(${item.Id});"><svg xmlns="http://
          success: function(result) {
              closeModal("#CrearModal");
              cargarTareas();
+
+
+
+             var htmlAlerta = alerta('¡Tarea registrada con éxito!', 'success');
+
+             $('#contenedor-alertas').html(htmlAlerta);
+
              $("#createForm")[0].reset();
 
          },
@@ -251,6 +260,9 @@ class="btn btn-danger" onclick=" eliminarTarea(${item.Id});"><svg xmlns="http://
                 success: function(result) {
                     closeModal("#EditarModal");
                     cargarTareas();
+                    var htmlAlerta = alerta('¡Tarea editada con éxito!', 'success');
+
+                    $('#contenedor-alertas').html(htmlAlerta);
 
                 },
                 error: function (xhr, status, error) {
@@ -271,14 +283,30 @@ class="btn btn-danger" onclick=" eliminarTarea(${item.Id});"><svg xmlns="http://
                 data: {
                     id: id
                 },
-                success: function (result) {
+                success: function(result) {
                     cargarTareas();
+                    var htmlAlerta = alerta('¡Tarea eliminada con éxito!', 'success');
+
+                    $('#contenedor-alertas').html(htmlAlerta);
+                   
                 },
                 error: function (xhr, status, error) {
                     console.error("Error al eliminar tarea - eliminar:", error, " ", xhr);
                 }
             })
         }
+
+
+        function alerta(texto, tipo) {
+            return `<div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+            <strong>${texto}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+        }
+
+
+
+
 
     </script>
 
