@@ -26,23 +26,35 @@
                     <div class="form-group">
                         <label for="title" class="col-form-label">Ingresa título de la tarea</label>
                         <input type="text" class="form-control" id="title">
+                        <div class="invalid-feedback">
+                            Ingresa un título.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="col-form-label">Ingresa una breve descripción</label>
                         <textarea class="form-control" id="description" cols="35" rows="6"></textarea>
+                        <div class="invalid-feedback">
+                            Ingresa una breve descripción
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="deadline" class="col-form-label">Seleccione la fecha límite para hacer la tarea</label>
                         <input type="date" class="form-control" id="deadline">
+                        <div class="invalid-feedback">
+                            Selecciona una fecha límite.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="priority" class="col-form-label">Seleccione la fecha límite para hacer la tarea</label>
                         <select class="form-select" aria-label="Default select example" id="priority">
-                            <option selected>Seleccione una opción</option>
+                            <option selected value="">Seleccione una opción</option>
                             <option value="Alta">Alta</option>
                             <option value="Media">Media</option>
                             <option value="Baja">Baja</option>
                         </select>
+                        <div class="invalid-feedback">
+                            Selecciona una prioridad
+                        </div>
                     </div>
 
                 </form>
@@ -77,10 +89,16 @@
                     <div class="form-group">
                         <label for="edit_title" class="col-form-label">Título de la tarea</label>
                         <input type="text" class="form-control" id="edit_title">
+                        <div class="invalid-feedback">
+                            Ingresa un título.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="edit_description" class="col-form-label">Descripción breve de la tarea</label>
                         <textarea class="form-control" id="edit_description" cols="35" rows="6"></textarea>
+                        <div class="invalid-feedback">
+                            Ingresa una breve descripción.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="edit_deadline" class="col-form-label">Fecha límite</label>
@@ -188,35 +206,42 @@
         }
 
         function crearTarea() {
-     $.ajax({
-         type: "POST",
-         url: "@Url.Action("Create", "Tarea")",
-         dataType: "json",
-         data: {
-             title: $("#title").val(),
-             description: $("#description").val(),
-             deadline: $("#deadline").val(),
-             priority: $("#priority").val()
 
-         },
-         success: function(result) {
-             closeModal("#CrearModal");
-             cargarTareas();
+            const titleValid = validInputTrim("title");
+            const deadlineValid = validInputTrim("deadline");
+            const descriptionValid = validInputTrim("description");
+            const priorityValid = validInputTrim("priority");
+
+            if (!titleValid || !deadlineValid || !descriptionValid || !priorityValid) {
+                return;
+            }
 
 
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Create", "Tarea")",
+                dataType: "json",
+                data: {
+                    title: $("#title").val(),
+                    description: $("#description").val(),
+                    deadline: $("#deadline").val(),
+                    priority: $("#priority").val()
+                },
+                success: function (result) {
 
-             var htmlAlerta = alerta('¡Tarea registrada con éxito!', 'success');
+                    closeModal("#CrearModal");
+                    cargarTareas();
 
-             $('#contenedor-alertas').html(htmlAlerta);
+                    var htmlAlerta = alerta('¡Tarea registrada con éxito!', 'success');
 
-             $("#createForm")[0].reset();
-
-         },
-         error: function (xhr, status, error) {
-             console.error("Error al cargar tareas - create:", error);
-         }
-     })
- }
+                    $('#contenedor-alertas').html(htmlAlerta);
+                    $("#createForm")[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al cargar tareas - create:", error);
+                }
+            })
+        }
 
 
 
@@ -248,6 +273,16 @@
         }
 
         function editarTarea() {
+
+
+            const titleValid = validInputTrim("edit_title");
+            const descriptionValid = validInputTrim("edit_description");
+
+            if (!titleValid || !descriptionValid) {
+                return;
+            }
+
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("Edit", "Tarea")",
@@ -369,6 +404,17 @@
             document.getElementById(dateInputId).setAttribute('min', hoy);
         }
 
+
+        function validInputTrim(id) {
+            const input = document.getElementById(id);
+            if (input.value.trim() === "") {
+                input.classList.add("is-invalid");
+                return false;
+            }
+
+            input.classList.remove("is-invalid");
+            return true;
+        }
 
     </script>
 
