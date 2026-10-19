@@ -27,14 +27,14 @@
                         <label for="title" class="col-form-label">Ingresa título de la tarea</label>
                         <input type="text" class="form-control" id="title">
                         <div class="invalid-feedback">
-                            Ingresa un título.
+                           El título debe contener entre 5 y 50 caracteres
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="col-form-label">Ingresa una breve descripción</label>
                         <textarea class="form-control" id="description" cols="35" rows="6"></textarea>
                         <div class="invalid-feedback">
-                            Ingresa una breve descripción
+                            La descripción debe contener entre 5 y 250 caracteres
                         </div>
                     </div>
                     <div class="form-group">
@@ -90,14 +90,14 @@
                         <label for="edit_title" class="col-form-label">Título de la tarea</label>
                         <input type="text" class="form-control" id="edit_title">
                         <div class="invalid-feedback">
-                            Ingresa un título.
+                            El título debe contener entre 5 y 50 caracteres
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="edit_description" class="col-form-label">Descripción breve de la tarea</label>
                         <textarea class="form-control" id="edit_description" cols="35" rows="6"></textarea>
                         <div class="invalid-feedback">
-                            Ingresa una breve descripción.
+                            La descripción debe contener entre 5 y 250 caracteres
                         </div>
                     </div>
                     <div class="form-group">
@@ -207,9 +207,9 @@
 
         function crearTarea() {
 
-            const titleValid = validInputTrim("title");
+            const titleValid = validInputLength("title",5,50);
             const deadlineValid = validInputTrim("deadline");
-            const descriptionValid = validInputTrim("description");
+            const descriptionValid = validInputLength("description",5,250);
             const priorityValid = validInputTrim("priority");
 
             if (!titleValid || !deadlineValid || !descriptionValid || !priorityValid) {
@@ -274,9 +274,9 @@
 
         function editarTarea() {
 
-
-            const titleValid = validInputTrim("edit_title");
-            const descriptionValid = validInputTrim("edit_description");
+            const titleValid = validInputLength("edit_title", 5, 50);
+      
+            const descriptionValid = validInputLength("edit_description",5,250);
 
             if (!titleValid || !descriptionValid) {
                 return;
@@ -416,6 +416,25 @@
             input.classList.remove("is-invalid");
             return true;
         }
+
+
+
+
+
+        function validInputLength(id, min, max) {
+            const input = document.getElementById(id);
+            const value = input.value.trim();
+
+            if (value.length < min || value.length > max) {
+                input.classList.add("is-invalid");
+                return false;
+            }
+
+            input.classList.remove("is-invalid");
+            return true;
+        }
+
+
 
     </script>
 
