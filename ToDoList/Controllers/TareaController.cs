@@ -99,6 +99,25 @@ namespace ToDoList.Controllers
 
            return Json(tarea, JsonRequestBehavior.AllowGet);
        }
+
+        
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            List<Tarea> lista = ListaTareas();
+            
+            Tarea tarea = lista.Find(t => t.Id == id);
+
+            lista.Remove(tarea);
+
+            Session["Tareas"] = lista;
+
+            return Json(tarea, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
         /*
 
        // GET: Tarea/Details/5
