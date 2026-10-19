@@ -165,6 +165,7 @@
 
         $(document).ready(function () {
             cargarTareas();
+            filtrar()
         });
 
 
@@ -175,6 +176,7 @@
                 url: "@Url.Action("GetTareas", "Tarea")",
                 dataType: "json",
                 success: function (result) {
+                    $("#tablaTareas").empty();
                     listar(result);
                 },
                 error: function (xhr, status, error) {
@@ -287,7 +289,7 @@
                     var htmlAlerta = alerta('¡Tarea eliminada con éxito!', 'success');
 
                     $('#contenedor-alertas').html(htmlAlerta);
-                   
+
                 },
                 error: function (xhr, status, error) {
                     console.error("Error al eliminar tarea - eliminar:", error, " ", xhr);
@@ -332,8 +334,33 @@
                 </tr>`;
             });
             $("#tablaTareas").html(filas);
-          
+
         }
+
+
+
+        function filtrar() {
+            $("#filter_id").change(function () {
+                var estado = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("FilterTareas", "Tarea")',
+                    data: { estado: estado },
+                    dataType: 'json',
+                    success: function(result){
+                        $("#tablaTareas").empty();
+                        listar(result);
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error al cargar las tareas:", error);
+                    }
+                })
+            });
+        }
+
+
+     
 
 
     </script>

@@ -116,6 +116,19 @@ namespace ToDoList.Controllers
         }
 
 
+        [HttpGet]
+        public JsonResult FilterTareas(string estado)
+        {
+            List<Tarea> lista = ListaTareas();
+
+            if (estado != "Todas")
+            {
+                lista = lista.Where(t => t.Status == estado).ToList();
+            }
+
+            return Json(lista, JsonRequestBehavior.AllowGet);
+         
+        }
 
 
         /*
