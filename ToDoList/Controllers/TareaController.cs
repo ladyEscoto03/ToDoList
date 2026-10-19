@@ -126,8 +126,16 @@ namespace ToDoList.Controllers
                 lista = lista.Where(t => t.Status == estado).ToList();
             }
 
-            return Json(lista, JsonRequestBehavior.AllowGet);
-         
+            return Json(lista.Select(t => new {
+                t.Id,
+                t.Title,
+                t.Description,
+                Created_at = t.Created_at.ToString("dd/MM/yyyy"),
+                DeadLine = t.DeadLine.ToString("dd/MM/yyyy"),
+                t.Status,
+                t.Priority
+            }), JsonRequestBehavior.AllowGet);
+
         }
 
 
