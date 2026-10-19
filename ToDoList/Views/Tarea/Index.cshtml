@@ -166,6 +166,8 @@
         $(document).ready(function () {
             cargarTareas();
             filtrar()
+            validDate("edit_deadline");
+            validDate("deadline");
         });
 
 
@@ -360,7 +362,12 @@
         }
 
 
-     
+
+
+        function validDate(dateInputId) {
+            const hoy = new Date().toISOString().split('T')[0];
+            document.getElementById(dateInputId).setAttribute('min', hoy);
+        }
 
 
     </script>
